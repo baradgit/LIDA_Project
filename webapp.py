@@ -58,7 +58,7 @@ if api_key:
 "5. Provide a summary of failures by failure type (TWF, HDF, PWF, OSF, RNF = 1) and the associated average operating conditions.",
 "6. How many machines experienced power failure (PWF = 1)?",
 "7. What is the average air temperature for products with power failure (PWF = 1)?",
-"8. Provide the summary statistics (mean, median, std) for Rotational_speed__rpm_.,
+"8. Provide the summary statistics (mean, median, std) for Rotational_speed__rpm_.",
 "9. How many products have both tool wear failure (TWF = 1) and power failure (PWF = 1)?",
 "10. What is the range (MIN and MAX) of air temperature for machines with machine failure (Machine_failure = 1)?",
 "11. What is the total number of machines that experienced each type of failure (TWF, HDF, PWF, OSF, RNF = 1)?",
