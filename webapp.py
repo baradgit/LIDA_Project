@@ -2,7 +2,7 @@ import streamlit as st
 from openai import OpenAI
 import pandas as pd
 import os
-from chat_bot import initialize_lida,store_csv_in_db, generate_sql_query, run_sql_query, generate_visualization, split_query_into_parts, COLUMN_NAMES, is_visualization_query, is_table_query
+from chat_bot import initialize_lida, store_csv_in_db, generate_sql_query, run_sql_query, generate_visualization, split_query_into_parts, COLUMN_NAMES, is_visualization_query, is_table_query
 from langchain.llms import OpenAI as LangOpenAI
 from langchain_experimental.agents import create_csv_agent
 
@@ -51,16 +51,26 @@ if api_key:
         st.markdown(f"<div class='column-names'>This chatbot, built on the AI4I 2020 Predictive Maintenance Dataset, helps predict machine failures based on operational data like temperature, speed, torque, and tool wear. The chatbot allows users to query for visualizations, tables, and summaries using natural language input. It leverages LangChain to interpret queries and uses SQLite for data storage. The chatbot includes error correction for column names and generates visualizations using the LIDA library for charts. The user experience is streamlined through Streamlit, with continuous conversation capabilities, making the system efficient for predictive maintenance tasks.</div>", unsafe_allow_html=True)
 
         EXAMPLE_QUESTIONS = [
-            "1. What is the average Air_temperature__K_ for each Type of product?",
-            "2. Show a bar plot of Torque__Nm_ vs Rotational_speed__rpm_.",
-            "3. List the top 5 products with the highest Tool_wear__min_.",
-            "4. Create a line chart of Process_temperature__K_ over UDI.",
-            "5. Show a table of Machine_failure counts grouped by Type.",
-            "6. What is the correlation between Air_temperature__K_ and Process_temperature__K_?",
-            "7. Display a scatter plot of Torque__Nm_ against Rotational_speed__rpm_.",
-            "8. Show the distribution of Tool_wear__min_ using a histogram.",
-            "9. How many machines failed due to HDF?",
-            "10. Provide the summary statistics (mean, median, std) for Rotational_speed__rpm_.",
+"1. How many power failure '1' products are there, and what is the average air temperature of only power failure '1' products?"
+"2. For the products that experienced machine failure as '1', what is the range of the air temperature?"
+"3. What factors most commonly lead to OSF?"
+"4. Which failure type seems to occur most often under high air temperature conditions?"
+"5. Provide a summary of failures by failure type (TWF, HDF, PWF, OSF, RNF = 1) and the associated average operating conditions."
+"6. How many machines experienced power failure (PWF = 1)?"
+"7. What is the average air temperature for products with power failure (PWF = 1)?"
+"8. Show a table with product ID, air temperature, and rotational speed for products with machine failure = 1."
+"9. How many products have both tool wear failure (TWF = 1) and power failure (PWF = 1)?"
+"10. What is the range (MIN and MAX) of air temperature for machines with machine failure (Machine_failure = 1)?"
+"11. What is the total number of machines that experienced each type of failure (TWF, HDF, PWF, OSF, RNF = 1)?"
+"12. Plot a histogram of the air temperature (Air_temperature__K_) for machines with machine failure (Machine_failure = 1)."
+"13. Create a bar chart comparing the average tool wear time (Tool_wear__min_) for failed machines (Machine_failure = 1) vs. non-failed machines (Machine_failure = 0)."
+"14. Show a bar plot of the number of machines with rotational speed above 2000 rpm for each failure type."
+"15. Create a histogram showing the distribution of torque (Torque__Nm_) for machines with overstrain failure (OSF = 1)."
+"16. Create a scatter plot of air temperature (Air_temperature__K_) versus process temperature (Process_temperature__K_) for machines that experienced machine failure (Machine_failure = 1)."
+"17. Show a box plot of rotational speed (Rotational_speed__rpm_) for each failure type (TWF, HDF, PWF, OSF, RNF)."
+
+            
+            
         ]
 
         st.markdown("<h2 class='subheader'>Example Questions</h2>", unsafe_allow_html=True)
@@ -75,33 +85,42 @@ if api_key:
         query = st.text_area("Ask for a visualization, table, and summary in a single query:")
 
         if st.button("Submit"):
-            divided_queries = split_query_into_parts(query,api_key)
+            divided_queries = split_query_into_parts(query, api_key)
 
             if 'Visualization:' in divided_queries and 'Table:' in divided_queries and 'Summary:' in divided_queries:
                 visualization_query = divided_queries.split('Visualization:')[1].split('Table:')[0].strip()
                 table_query = divided_queries.split('Table:')[1].split('Summary:')[0].strip()
                 summary_query = divided_queries.split('Summary:')[1].strip()
 
+                # Create placeholders for status messages
+                vis_status = st.empty()
+                table_status = st.empty()
+                summary_status = st.empty()
+
                 if is_visualization_query(query) or ('Visualization' in divided_queries and 'None' not in visualization_query):
-                    st.markdown("<h2 class='subheader'>Generating Visualization...</h2>", unsafe_allow_html=True)
-                    img = generate_visualization(file_path, visualization_query,api_key)
+                    vis_status.markdown("<h2 class='subheader'>Generating Visualization...</h2>", unsafe_allow_html=True)
+                    img = generate_visualization(file_path, visualization_query, api_key)
                     if img:
                         st.image(img)
+                        vis_status.success("Visualization generated successfully!")
                     else:
-                        st.error("No chart was generated for the visualization query.")
+                        vis_status.error("No chart was generated for the visualization query.")
+                    vis_status.empty()  # Clear the "Generating Visualization..." message
 
                 if is_table_query(query) or ('Table' in divided_queries and 'None' not in table_query):
-                    st.markdown("<h2 class='subheader'>Generating Table...</h2>", unsafe_allow_html=True)
-                    sql_query = generate_sql_query(table_query,api_key)
+                    table_status.markdown("<h2 class='subheader'>Generating Table...</h2>", unsafe_allow_html=True)
+                    sql_query = generate_sql_query(table_query, api_key)
                     result_df = run_sql_query(sql_query)
                     if isinstance(result_df, pd.DataFrame):
                         st.dataframe(result_df)
+                        table_status.success("Table fetched successfully!")
                     else:
-                        st.error(f"Re enter the query in detail")
+                        table_status.error("Re-enter the query in detail.")
+                    table_status.empty()  # Clear the "Generating Table..." message
 
                 # Process the summary query properly by invoking the CSV agent
                 if 'Summary' in divided_queries and 'None' not in summary_query:
-                    st.markdown("<h2 class='subheader'>Fetching Summary...</h2>", unsafe_allow_html=True)
+                    summary_status.markdown("<h2 class='subheader'>Fetching Summary...</h2>", unsafe_allow_html=True)
 
                     # Create CSV agent for handling the summary
                     agent = create_csv_agent(
@@ -118,9 +137,12 @@ if api_key:
 
                         # Display the summary output with highlighting
                         st.markdown(f"<div class='highlight-summary'>{summary_output}</div>", unsafe_allow_html=True)
+                        summary_status.success("Summary generated successfully!")
 
                     except Exception as e:
-                        st.error(f"Error generating summary: {e}")
+                        summary_status.error(f"Error generating summary: {e}")
+                    summary_status.empty()  # Clear the "Fetching Summary..." message
+
             else:
                 st.error("Please try a clearer query.")
 else:
