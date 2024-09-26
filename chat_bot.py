@@ -104,7 +104,7 @@ def run_sql_query(sql_query):
         return str(e)
 
 # Helper function to split input query into visualization, table, and summary parts
-def split_query_into_parts(user_query):
+def split_query_into_parts(user_query,api_key):
     client = OpenAI(api_key=api_key)
     prompt = (
     f"Analyze the user's query: '{user_query}' and break it down into three distinct sections: Visualization, Table, and Summary. "
