@@ -73,7 +73,7 @@ if api_key:
         query = st.text_area("Ask for a visualization, table, and summary in a single query:")
 
         if st.button("Submit"):
-            divided_queries = split_query_into_parts(query)
+            divided_queries = split_query_into_parts(query,api_key)
 
             if 'Visualization:' in divided_queries and 'Table:' in divided_queries and 'Summary:' in divided_queries:
                 visualization_query = divided_queries.split('Visualization:')[1].split('Table:')[0].strip()
