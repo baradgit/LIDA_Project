@@ -23,7 +23,9 @@ def base64_to_image(base64_string):
     return Image.open(BytesIO(byte_data))
 
 # Initialize the LIDA manager for visualization
-lida = Manager(text_gen=llm("openai"))
+#lida = Manager(text_gen=llm("openai"))
+def initialize_lida(api_key):
+    return Manager(text_gen=llm("openai", api_key=api_key))
 
 # Agent 3: CSV Visualization
 def generate_visualization(file_path, user_query):
