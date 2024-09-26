@@ -82,7 +82,7 @@ if api_key:
 
 
         st.markdown("<h2 class='subheader'>Ask a Question</h2>", unsafe_allow_html=True)
-        query = st.text_area("Ask for a visualization, table, and summary in a single query:")
+        query = st.markdown('<span style="background-color: green; font-size: 12px;">This is highlighted text with a small font size.</span>', unsafe_allow_html=True)
 
         if st.button("Submit"):
             divided_queries = split_query_into_parts(query, api_key)
