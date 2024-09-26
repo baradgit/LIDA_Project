@@ -76,7 +76,7 @@ def generate_sql_query(user_input):
     words = user_input.split()
     corrected_words = [correct_column_name(word) for word in words]
     corrected_input = ' '.join(corrected_words)
-    
+    client = OpenAI(api_key=api_key)
     prompt = (
         f"Generate an SQL query based on this user request: '{corrected_input}'. "
         f"Use the table name 'data_table' in the query."
@@ -105,6 +105,7 @@ def run_sql_query(sql_query):
 
 # Helper function to split input query into visualization, table, and summary parts
 def split_query_into_parts(user_query):
+    client = OpenAI(api_key=api_key)
     prompt = (
     f"Analyze the user's query: '{user_query}' and break it down into three distinct sections: Visualization, Table, and Summary. "
     f"Ensure each section is correctly handled based on the dataset. The available columns from the dataset are: "
