@@ -43,7 +43,7 @@ def generate_visualization(file_path, user_query,api_key):
 
 # Function to determine whether the query is for visualization or text-based output
 def is_visualization_query(query):
-    keywords = ["plot", "chart", "graph", "visualize", "show", "visualization", "visual"]
+    keywords = ["plot", "chart", "graph", "visualize", "visualization", "visual"]
     return any(keyword in query.lower() for keyword in keywords)
 
 # Function to determine if the query asks for a table or structured output
