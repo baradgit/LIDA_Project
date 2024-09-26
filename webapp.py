@@ -17,7 +17,7 @@ st.markdown(
     .centered { text-align: center; }
     .header { font-size: 36px; font-weight: bold; color: #ffffff; }
     .subheader { font-size: 28px; font-weight: bold; color: #ffffff; }
-    .text { font-size: 18px; font-weight: bold; color: #ffffff; }
+    .text { font-size: 14px; font-weight: bold; color: #ffffff; }
     .example-question { font-size: 18px; font-weight: bold; color: #ffffff; margin-bottom: 5px; }
     .column-names { font-size: 18px; font-weight: bold; color: #ffffff; background-color: #4F8BF9; padding: 10px; border-radius: 10px; }
     .highlight-summary { background-color: #333333; padding: 15px; border-left: 5px solid #4F8BF9; font-size: 18px; font-weight: bold; color: #ffffff; }
@@ -51,22 +51,22 @@ if api_key:
         st.markdown(f"<div class='column-names'>This chatbot, built on the AI4I 2020 Predictive Maintenance Dataset, helps predict machine failures based on operational data like temperature, speed, torque, and tool wear. The chatbot allows users to query for visualizations, tables, and summaries using natural language input. It leverages LangChain to interpret queries and uses SQLite for data storage. The chatbot includes error correction for column names and generates visualizations using the LIDA library for charts. The user experience is streamlined through Streamlit, with continuous conversation capabilities, making the system efficient for predictive maintenance tasks.</div>", unsafe_allow_html=True)
 
         EXAMPLE_QUESTIONS = [
-"1. How many power failure '1' products are there, and what is the average air temperature of only power failure '1' products?"
-"2. For the products that experienced machine failure as '1', what is the range of the air temperature?"
-"3. What factors most commonly lead to OSF?"
-"4. Which failure type seems to occur most often under high air temperature conditions?"
-"5. Provide a summary of failures by failure type (TWF, HDF, PWF, OSF, RNF = 1) and the associated average operating conditions."
-"6. How many machines experienced power failure (PWF = 1)?"
-"7. What is the average air temperature for products with power failure (PWF = 1)?"
-"8. Show a table with product ID, air temperature, and rotational speed for products with machine failure = 1."
-"9. How many products have both tool wear failure (TWF = 1) and power failure (PWF = 1)?"
-"10. What is the range (MIN and MAX) of air temperature for machines with machine failure (Machine_failure = 1)?"
-"11. What is the total number of machines that experienced each type of failure (TWF, HDF, PWF, OSF, RNF = 1)?"
-"12. Plot a histogram of the air temperature (Air_temperature__K_) for machines with machine failure (Machine_failure = 1)."
-"13. Create a bar chart comparing the average tool wear time (Tool_wear__min_) for failed machines (Machine_failure = 1) vs. non-failed machines (Machine_failure = 0)."
-"14. Show a bar plot of the number of machines with rotational speed above 2000 rpm for each failure type."
-"15. Create a histogram showing the distribution of torque (Torque__Nm_) for machines with overstrain failure (OSF = 1)."
-"16. Create a scatter plot of air temperature (Air_temperature__K_) versus process temperature (Process_temperature__K_) for machines that experienced machine failure (Machine_failure = 1)."
+"1. How many power failure '1' products are there, and what is the average air temperature of only power failure '1' products?",
+"2. For the products that experienced machine failure as '1', what is the range of the air temperature?",
+"3. What factors most commonly lead to OSF?",
+"4. Which failure type seems to occur most often under high air temperature conditions?",
+"5. Provide a summary of failures by failure type (TWF, HDF, PWF, OSF, RNF = 1) and the associated average operating conditions.",
+"6. How many machines experienced power failure (PWF = 1)?",
+"7. What is the average air temperature for products with power failure (PWF = 1)?",
+"8. Show a table with product ID, air temperature, and rotational speed for products with machine failure = 1.",
+"9. How many products have both tool wear failure (TWF = 1) and power failure (PWF = 1)?",
+"10. What is the range (MIN and MAX) of air temperature for machines with machine failure (Machine_failure = 1)?",
+"11. What is the total number of machines that experienced each type of failure (TWF, HDF, PWF, OSF, RNF = 1)?",
+"12. Plot a histogram of the air temperature (Air_temperature__K_) for machines with machine failure (Machine_failure = 1).",
+"13. Create a bar chart comparing the average tool wear time (Tool_wear__min_) for failed machines (Machine_failure = 1) vs. non-failed machines (Machine_failure = 0).",
+"14. Show a bar plot of the number of machines with rotational speed above 2000 rpm for each failure type.",
+"15. Create a histogram showing the distribution of torque (Torque__Nm_) for machines with overstrain failure (OSF = 1).",
+"16. Create a scatter plot of air temperature (Air_temperature__K_) versus process temperature (Process_temperature__K_) for machines that experienced machine failure (Machine_failure = 1).",
 "17. Show a box plot of rotational speed (Rotational_speed__rpm_) for each failure type (TWF, HDF, PWF, OSF, RNF)."
 
             
