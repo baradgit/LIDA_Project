@@ -48,6 +48,7 @@ if api_key:
         st.write(f"Using file: {file_path}")
         
         df = store_csv_in_db(file_path)
+        st.markdown(f"<div class='column-names'>This chatbot, built on the AI4I 2020 Predictive Maintenance Dataset, helps predict machine failures based on operational data like temperature, speed, torque, and tool wear. The chatbot allows users to query for visualizations, tables, and summaries using natural language input. It leverages LangChain to interpret queries and uses SQLite for data storage. The chatbot includes error correction for column names and generates visualizations using the LIDA library for charts. The user experience is streamlined through Streamlit, with continuous conversation capabilities, making the system efficient for predictive maintenance tasks.</div>", unsafe_allow_html=True)
 
         EXAMPLE_QUESTIONS = [
             "1. What is the average Air_temperature__K_ for each Type of product?",
@@ -67,7 +68,8 @@ if api_key:
             st.markdown(f"<div class='example-question'>{question}</div>", unsafe_allow_html=True)
 
         st.markdown("<h2 class='subheader'>Available Column Names</h2>", unsafe_allow_html=True)
-        st.markdown(f"<div class='column-names'>{', '.join(COLUMN_NAMES)}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='column-names'>UDI, Product_ID, Type, Air_temperature__K_, Process_temperature__K_, Rotational_speed__rpm_, Torque__Nm_, Tool_wear__min_, Machine_failure,TWF (Tool Wear Failure), HDF (Heat Dissipation Failure), PWF (Power Failure), OSF (Overstrain Failure), RNF (Random Failures).</div>", unsafe_allow_html=True)
+
 
         st.markdown("<h2 class='subheader'>Ask a Question</h2>", unsafe_allow_html=True)
         query = st.text_area("Ask for a visualization, table, and summary in a single query:")
