@@ -28,9 +28,9 @@ def initialize_lida(api_key):
     return Manager(text_gen=llm("openai", api_key=api_key))
 
 # Agent 3: CSV Visualization
-def generate_visualization(file_path, user_query):
+def generate_visualization(file_path, user_query,api_key):
     textgen_config = TextGenerationConfig(n=1, temperature=0.2, model="gpt-3.5-turbo", use_cache=True)
-
+    lida = Manager(text_gen=llm("openai", api_key=api_key))
     summary = lida.summarize(file_path, summary_method="default", textgen_config=textgen_config)
     charts = lida.visualize(summary=summary, goal=user_query, textgen_config=textgen_config, library="seaborn")
 
