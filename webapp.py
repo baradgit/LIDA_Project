@@ -17,8 +17,8 @@ st.markdown(
     .centered { text-align: center; }
     .header { font-size: 36px; font-weight: bold; color: #ffffff; }
     .subheader { font-size: 28px; font-weight: bold; color: #ffffff; }
-    .text { font-size: 14px; font-weight: bold; color: #ffffff; }
-    .example-question { font-size: 18px; font-weight: bold; color: #ffffff; margin-bottom: 5px; }
+    .text { font-size: 18px; font-weight: bold; color: #ffffff; }
+    .example-question { font-size: 13px; font-weight: bold; color: #ffffff; margin-bottom: 5px; }
     .column-names { font-size: 18px; font-weight: bold; color: #ffffff; background-color: #4F8BF9; padding: 10px; border-radius: 10px; }
     .highlight-summary { background-color: #333333; padding: 15px; border-left: 5px solid #4F8BF9; font-size: 18px; font-weight: bold; color: #ffffff; }
     textarea { background-color: #2C2C2C; color: #ffffff; font-size: 18px; font-weight: bold; padding: 15px; border-radius: 10px; border: 2px solid #4F8BF9; }
