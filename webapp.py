@@ -82,7 +82,7 @@ if api_key:
 
                 if is_visualization_query(query) or ('Visualization' in divided_queries and 'None' not in visualization_query):
                     st.markdown("<h2 class='subheader'>Generating Visualization...</h2>", unsafe_allow_html=True)
-                    img = generate_visualization(file_path, visualization_query)
+                    img = generate_visualization(file_path, visualization_query,api_key)
                     if img:
                         st.image(img)
                     else:
