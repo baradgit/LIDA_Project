@@ -82,7 +82,10 @@ if api_key:
 
 
         st.markdown("<h2 class='subheader'>Ask a Question</h2>", unsafe_allow_html=True)
-        query = st.markdown('<span style="background-color: green; font-size: 12px;">This is highlighted text with a small font size.</span>', unsafe_allow_html=True)
+        st.markdown('<p style="color: green; font-size: 11px;">Enter query for a visualization, table, and summary:</p>', unsafe_allow_html=True)
+
+# Text area for user input
+        query = st.text_area("", height=200)
 
         if st.button("Submit"):
             divided_queries = split_query_into_parts(query, api_key)
@@ -104,7 +107,7 @@ if api_key:
                         st.image(img)
                         vis_status.success("Visualization generated successfully!")
                     else:
-                        vis_status.error("No chart was generated for the visualization query.")
+                        vis_status.error("wait for 5 seconds and resubmit or change the Query.")
                     vis_status.empty()  # Clear the "Generating Visualization..." message
 
                 if is_table_query(query) or ('Table' in divided_queries and 'None' not in table_query):
