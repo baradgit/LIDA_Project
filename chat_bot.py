@@ -80,6 +80,7 @@ def generate_sql_query(user_input,api_key):
     prompt = (
         f"Generate an SQL query based on this user request: '{corrected_input}'. "
         f"Use the table name 'data_table' in the query."
+        f"TWF = Tool Wear Failure, HDF = Heat Dissipation Failure, PWF = Power Failure, OSF = Overstrain Failure, RNF = Random Failures."
     )
 
     response = client.chat.completions.create(
@@ -111,6 +112,7 @@ def split_query_into_parts(user_query,api_key):
     f"Ensure each section is correctly handled based on the dataset. The available columns from the dataset are: "
     f"['UDI', 'Product_ID', 'Type', 'Air_temperature__K_', 'Process_temperature__K_', "
     f"'Rotational_speed__rpm_', 'Torque__Nm_', 'Tool_wear__min_', 'Machine_failure', 'TWF', 'HDF', 'PWF', 'OSF', 'RNF']. "
+    f"TWF = Tool Wear Failure, HDF = Heat Dissipation Failure, PWF = Power Failure, OSF = Overstrain Failure, RNF = Random Failures."
     
     f"Here are detailed instructions for each section: "
 
