@@ -38,6 +38,7 @@ api_key = st.text_input("Enter your OpenAI API Key", type="password")
 if api_key:
     # Initialize OpenAI with user-provided key
     client = OpenAI(api_key=api_key)
+    lida = initialize_lida(api_key)
 
     # Continue the rest of the app...
     # Upload CSV once and use it for both types of queries
