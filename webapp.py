@@ -90,7 +90,7 @@ if api_key:
 
                 if is_table_query(query) or ('Table' in divided_queries and 'None' not in table_query):
                     st.markdown("<h2 class='subheader'>Generating Table...</h2>", unsafe_allow_html=True)
-                    sql_query = generate_sql_query(table_query)
+                    sql_query = generate_sql_query(table_query,api_key)
                     result_df = run_sql_query(sql_query)
                     if isinstance(result_df, pd.DataFrame):
                         st.dataframe(result_df)
