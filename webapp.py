@@ -82,10 +82,10 @@ if api_key:
 
 
         st.markdown("<h2 class='subheader'>Ask a Question</h2>", unsafe_allow_html=True)
-        st.markdown('<p style="color: green; font-size: 13px;">Enter query for a visualization, table, and summary:</p>', unsafe_allow_html=True)
+        st.markdown('<p style="color: green; font-size: 15px;">Enter query for a visualization, table, and summary:</p>', unsafe_allow_html=True)
 
 # Text area for user input
-        query = st.text_area("", height=70)
+        query = st.text_area("", height=40)
 
         if st.button("Submit"):
             divided_queries = split_query_into_parts(query, api_key)
