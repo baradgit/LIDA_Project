@@ -72,7 +72,7 @@ def store_csv_in_db(csv_file):
     return df
 
 # Step 2: Generate SQL Query using OpenAI based on User Input with corrected column names
-def generate_sql_query(user_input):
+def generate_sql_query(user_input,api_key):
     words = user_input.split()
     corrected_words = [correct_column_name(word) for word in words]
     corrected_input = ' '.join(corrected_words)
