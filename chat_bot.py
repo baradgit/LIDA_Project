@@ -13,9 +13,9 @@ import base64
 import os
 
 # Load environment variables for OpenAI key
-load_dotenv()
-openai_api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=openai_api_key)
+#load_dotenv()
+#openai_api_key = os.getenv("OPENAI_API_KEY")
+#client = OpenAI(api_key=openai_api_key)
 
 # Helper function to decode base64 to an image
 def base64_to_image(base64_string):
