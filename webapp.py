@@ -85,7 +85,7 @@ if api_key:
         st.markdown('<p style="color: green; font-size: 15px;">Enter query for a visualization, table, and summary:</p>', unsafe_allow_html=True)
 
 # Text area for user input
-        query = st.text_area("Enter the query", height=40)
+        query = st.text_area("", height=40,label_visibility="collapsed")
 
         if st.button("Submit"):
             divided_queries = split_query_into_parts(query, api_key)
