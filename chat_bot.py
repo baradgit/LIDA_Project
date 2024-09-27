@@ -80,7 +80,7 @@ def generate_sql_query(user_input, api_key):
         f"Generate an SQL query based on this user request: '{corrected_input}'. "
         f"Use the table name 'data_table' in the query. "
         f"TWF = Tool Wear Failure, HDF = Heat Dissipation Failure, PWF = Power Failure, OSF = Overstrain Failure, RNF = Random Failures. "
-        f"Talking about failure or failed always='1' and not failed means always='0'."
+        f"Talking about failure or failed always mention='1' and if not failed means always mention='0'."
     )
 
     response = client.chat.completions.create(
@@ -113,7 +113,7 @@ def split_query_into_parts(user_query, api_key):
         f"['UDI', 'Product_ID', 'Type', 'Air_temperature__K_', 'Process_temperature__K_', "
         f"'Rotational_speed__rpm_', 'Torque__Nm_', 'Tool_wear__min_', 'Machine_failure', 'TWF', 'HDF', 'PWF', 'OSF', 'RNF']. "
         f"TWF = Tool Wear Failure, HDF = Heat Dissipation Failure, PWF = Power Failure, OSF = Overstrain Failure, RNF = Random Failures. "
-        f"Talking about failure or failed always = '1', and not failed means always = '0'. "
+        f"Talking about failure or failed always mention='1' and if not failed means always mention='0'. "
         f"Here are detailed instructions for each section: "
         f"1) **Visualization Request**: Detect phrases indicating the user wants a chart, graph, or any visual representation of the data. Look for words like 'show a graph', 'plot', 'visualize', 'bar chart', 'scatter plot', etc. "
         f"Also handle implicit requests like 'compare Air_temperature__K_ and Process_temperature__K_', which suggests the user wants a plot. "
@@ -133,6 +133,8 @@ def split_query_into_parts(user_query, api_key):
         f"For queries beyond SQL's capability (e.g., involving advanced calculations or multiple conditions), generate Python code to handle the request. "
         f"Return the output in the following structured format: 1) Visualization: <description of chart> 2) Table: <SQL query or Python code> 3) Summary: <text-based summary>. "
         f"If any section does not apply, return 'None' for that section."
+        f"Talking about failure or failed always mention='1' and if not failed means always mention='0'. "
+        
     )
 
     response = client.chat.completions.create(
