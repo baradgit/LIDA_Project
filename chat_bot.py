@@ -109,38 +109,42 @@ def run_sql_query(sql_query):
 def split_query_into_parts(user_query,api_key):
     client = OpenAI(api_key=api_key)
     prompt = (
-    f"Analyze the user's query: '{user_query}' and break it down into three distinct sections: Visualization, Table, and Summary. "
-    f"Ensure each section is correctly handled based on the dataset. The available columns from the dataset are: "
-    f"['UDI', 'Product_ID', 'Type', 'Air_temperature__K_', 'Process_temperature__K_', "
-    f"'Rotational_speed__rpm_', 'Torque__Nm_', 'Tool_wear__min_', 'Machine_failure', 'TWF', 'HDF', 'PWF', 'OSF', 'RNF']. "
-    f"TWF = Tool Wear Failure, HDF = Heat Dissipation Failure, PWF = Power Failure, OSF = Overstrain Failure, RNF = Random Failures."
-    f"talking about failure or failed always="1" and ,, not failed means always ="0" "
-    f"Here are detailed instructions for each section: "
+   f"Analyze the user's query: '{user_query}', and break it down into three distinct sections: Visualization, Table, and Summary.", 
+f"Ensure each section is correctly handled based on the dataset. The available columns from the dataset are:", 
+f"['UDI', 'Product_ID', 'Type', 'Air_temperature__K_', 'Process_temperature__K_',", 
+f"'Rotational_speed__rpm_', 'Torque__Nm_', 'Tool_wear__min_', 'Machine_failure', 'TWF', 'HDF', 'PWF', 'OSF', 'RNF'].", 
+f"TWF = Tool Wear Failure, HDF = Heat Dissipation Failure, PWF = Power Failure, OSF = Overstrain Failure, RNF = Random Failures.", 
+f"Talking about failure or failed always = '1', and not failed means always = '0'.", 
+f"Here are detailed instructions for each section:", 
 
-    f"1) **Visualization Request**: Detect phrases indicating the user wants a chart, graph, or any visual representation of the data. Look for words like 'show a graph', 'plot', 'visualize', 'bar chart', 'scatter plot', etc. "
-    f"Also handle implicit requests like 'compare Air_temperature__K_ and Process_temperature__K_', which suggests the user wants a plot. "
-    f"If multiple variables are mentioned, infer the correct type of chart. Provide the result in the format: 'Visualization: <description of chart>'. "
-    f"For example: 'Visualization: Bar chart of Torque__Nm_ vs Rotational_speed__rpm_'. If no visualization is requested, return 'Visualization: None'. "
-    f"talking about failure or failed always="1" and ,, not failed means always ="0" "
-    f"2) **Table Request (SQL Query or Python Code)**: For structured data requests, create a valid SQL query or Python code to match the user's request. "
-    f"Pay attention to words like 'list', 'show table', 'retrieve', 'filter', 'order by', etc. For simple requests, generate an SQL query. "
-    f"For more complex queries involving calculations, multiple filters, or conditions, generate a Python code snippet using Pandas. "
-    f"Make sure to handle advanced queries requiring operations that SQL cannot handle alone. Provide the result in the format: 'Table: <SQL query or Python code>'. "
-    f"If no table is requested, return 'Table: None'. "
-    f"talking about failure or failed always="1" and ,, not failed means always ="0" "
-    f"3) **Summary Request**: Look for phrases indicating the user wants a summary, analysis, or statistical insight, such as 'summarize', 'describe', 'analyze', 'mean', 'median', 'standard deviation', etc. "
-    f"Generate a text-based summary for such requests. For example, 'Summarize the relationship between Air_temperature__K_ and Process_temperature__K_' implies a statistical explanation. "
-    f"Provide the result in the format: 'Summary: <text-based summary>'. If no summary is requested, return 'Summary: None'. "
-    f"talking about failure or failed always="1" and ,, not failed means always ="0" "
-    f"4) **Handling Multiple Requests**: If the user asks for more than one of the three sections (visualization, table, summary), generate the output for each as required. "
-    f"If the user specifies only one section (e.g., 'only show me a table'), ensure the other sections are ignored. For ambiguous or complex queries, intelligently split the request and handle each part appropriately. "
+f"1) **Visualization Request**: Detect phrases indicating the user wants a chart, graph, or any visual representation of the data. Look for words like 'show a graph', 'plot', 'visualize', 'bar chart', 'scatter plot', etc.", 
+f"Also handle implicit requests like 'compare Air_temperature__K_ and Process_temperature__K_', which suggests the user wants a plot.", 
+f"If multiple variables are mentioned, infer the correct type of chart. Provide the result in the format: 'Visualization: <description of chart>'.", 
+f"For example: 'Visualization: Bar chart of Torque__Nm_ vs Rotational_speed__rpm_'. If no visualization is requested, return 'Visualization: None'.", 
+f"Talking about failure or failed always = '1', and not failed means always = '0'.", 
 
-    f"5) **Handling Complex Queries**: If the query is ambiguous or complex, split the operations and handle them individually. For instance, if the user asks for 'average temperature and visualize it over time', return both a summary and a relevant chart. "
-    f"For queries beyond SQL's capability (e.g., involving advanced calculations or multiple conditions), generate Python code to handle the request. "
+f"2) **Table Request (SQL Query or Python Code)**: For structured data requests, create a valid SQL query or Python code to match the user's request.", 
+f"Pay attention to words like 'list', 'show table', 'retrieve', 'filter', 'order by', etc. For simple requests, generate an SQL query.", 
+f"For more complex queries involving calculations, multiple filters, or conditions, generate a Python code snippet using Pandas.", 
+f"Make sure to handle advanced queries requiring operations that SQL cannot handle alone. Provide the result in the format: 'Table: <SQL query or Python code>'.", 
+f"If no table is requested, return 'Table: None'.", 
+f"Talking about failure or failed always = '1', and not failed means always = '0'.", 
 
-    f"Return the output in the following structured format: "
-    f"1) Visualization: <description of chart> 2) Table: <SQL query or Python code> 3) Summary: <text-based summary>. "
-    f"If any section does not apply, return 'None' for that section."
+f"3) **Summary Request**: Look for phrases indicating the user wants a summary, analysis, or statistical insight, such as 'summarize', 'describe', 'analyze', 'mean', 'median', 'standard deviation', etc.", 
+f"Generate a text-based summary for such requests. For example, 'Summarize the relationship between Air_temperature__K_ and Process_temperature__K_' implies a statistical explanation.", 
+f"Provide the result in the format: 'Summary: <text-based summary>'. If no summary is requested, return 'Summary: None'.", 
+f"Talking about failure or failed always = '1', and not failed means always = '0'.", 
+
+f"4) **Handling Multiple Requests**: If the user asks for more than one of the three sections (visualization, table, summary), generate the output for each as required.", 
+f"If the user specifies only one section (e.g., 'only show me a table'), ensure the other sections are ignored. For ambiguous or complex queries, intelligently split the request and handle each part appropriately.", 
+
+f"5) **Handling Complex Queries**: If the query is ambiguous or complex, split the operations and handle them individually. For instance, if the user asks for 'average temperature and visualize it over time', return both a summary and a relevant chart.", 
+f"For queries beyond SQL's capability (e.g., involving advanced calculations or multiple conditions), generate Python code to handle the request.", 
+
+f"Return the output in the following structured format:", 
+f"1) Visualization: <description of chart> 2) Table: <SQL query or Python code> 3) Summary: <text-based summary>.", 
+f"If any section does not apply, return 'None' for that section."
+
 )
 
 
