@@ -51,9 +51,9 @@ if api_key:
         st.markdown(f"<div class='column-names'>This chatbot, built on the AI4I 2020 Predictive Maintenance Dataset, helps predict machine failures based on operational data like temperature, speed, torque, and tool wear. The chatbot allows users to query for visualizations, tables, and summaries using natural language input. It leverages LangChain to interpret queries and uses SQLite for data storage. The chatbot includes error correction for column names and generates visualizations using the LIDA library for charts. The user experience is streamlined through Streamlit, with continuous conversation capabilities, making the system efficient for predictive maintenance tasks.</div>", unsafe_allow_html=True)
 
         EXAMPLE_QUESTIONS = [
-"1. How many power failure products are there, and what is the average air temperature of only power failure products?",
-"2. For the products that experienced machine failure, what is the range of the air temperature?",
-"3. What factors most commonly lead to OSF?",
+"1. How many power failure products?, and also what is the average process_temperature of only power failure products?",
+"2. For the products that experienced machine failure, what is the range of the process temperature?",
+"3. What is the count of OSF?",
 "4. Which failure type seems to occur most often under high air temperature conditions?",
 "5. Provide a summary of failures by failure type (TWF, HDF, PWF, OSF, RNF) and the associated average operating conditions.",
 "6. How many machines experienced power failure?",
