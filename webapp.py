@@ -135,7 +135,7 @@ if api_key:
 
                     # Invoke the agent for the summary part
                     try:
-                        result = agent.invoke({"input": summary_query})
+                        result = agent.invoke({"input": summary_query+"convert into string and give output"})
                         summary_output = result["output"]
 
                         # Display the summary output with highlighting
