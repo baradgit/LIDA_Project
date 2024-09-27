@@ -81,7 +81,7 @@ def generate_sql_query(user_input,api_key):
         f"Generate an SQL query based on this user request: '{corrected_input}'. ",
         f"Use the table name 'data_table' in the query.",
         f"TWF = Tool Wear Failure, HDF = Heat Dissipation Failure, PWF = Power Failure, OSF = Overstrain Failure, RNF = Random Failures.",
-        f"talking about failure or failed always="1" and ,, not failed means always ="0" "
+        f"talking about failure or failed always="1" and ,, not failed means always ="0" ",
     )
 
     response = client.chat.completions.create(
