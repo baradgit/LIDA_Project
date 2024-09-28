@@ -81,7 +81,8 @@ def generate_sql_query(user_input, api_key):
         f"Use the table name 'data_table' in the query. "
         f"TWF = Tool Wear Failure, HDF = Heat Dissipation Failure, PWF = Power Failure, OSF = Overstrain Failure, RNF = Random Failures. "
         f"Talking about failure or failed always mention='1' and if not failed means always mention='0'."
-        f"Note: Very important thing if not exact atleast give related working query to execute"
+        f"Note 1 : Very important thing if not exact atleast give related working query to execute"
+        f"Note 2: Make sure that the SQL string being sent to the execution function contains only the SQL query and no explanatory text."
     )
 
     response = client.chat.completions.create(
