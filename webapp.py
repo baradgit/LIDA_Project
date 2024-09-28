@@ -6,10 +6,10 @@ from chat_bot import initialize_lida,store_csv_in_db, generate_sql_query, run_sq
 from langchain.llms import OpenAI as LangOpenAI
 from langchain_experimental.agents import create_csv_agent
 
-# Set up page
+
 st.set_page_config(page_title="CSV Agent Application", layout="wide")
 
-# CSS Styling
+
 st.markdown(
     """
     <style>
@@ -32,16 +32,15 @@ st.markdown(
 
 st.markdown("<h1 class='centered header'>CSV Agent Application with LangChain, LIDA & SQLite</h1>", unsafe_allow_html=True)
 
-# Prompt user to input their OpenAI API key
+
 api_key = st.text_input("Enter your OpenAI API Key", type="password")
 
 if api_key:
-    # Initialize OpenAI with user-provided key
+   
     client = OpenAI(api_key=api_key)
     lida = initialize_lida(api_key)
 
-    # Continue the rest of the app...
-    # Upload CSV once and use it for both types of queries
+   
     file_path = "ai4i2020.csv"
 
     if file_path:
@@ -99,18 +98,16 @@ if api_key:
                         if isinstance(result_df, pd.DataFrame):
                             st.dataframe(result_df)
                         else:
-        # In case result is not a DataFrame, we raise an exception to capture it
-                            st.write(result_df)
-                            raise ValueError(result_df)
+                            raise ValueError("rephrase the query try starting with table:")
                     except Exception as e:
-    # This will display the exact error from the run_sql_query function or any other error that occurs
+   
                         st.error(f"An error occurred: {str(e)}")        
 
-                # Process the summary query properly by invoking the CSV agent
+               
                 if 'Summary' in divided_queries and 'None' not in summary_query:
                     st.markdown("<h2 class='subheader'>Fetching Summary...</h2>", unsafe_allow_html=True)
 
-                    # Create CSV agent for handling the summary
+                 
                     agent = create_csv_agent(
                         LangOpenAI(temperature=0, api_key=api_key),
                         file_path,
@@ -118,12 +115,12 @@ if api_key:
                         allow_dangerous_code=True
                     )
 
-                    # Invoke the agent for the summary part
+                   
                     try:
                         result = agent.invoke({"input": summary_query})
                         summary_output = result["output"]
 
-                        # Display the summary output with highlighting
+                       
                         st.markdown(f"<div class='highlight-summary'>{summary_output}</div>", unsafe_allow_html=True)
 
                     except Exception as e:
