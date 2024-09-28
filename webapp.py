@@ -30,7 +30,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.markdown("<h1 class='centered header'>CSV Agent Application with LangChain, LIDA & SQLite</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='centered header'>Predictive Maintenance Chatbot</h1>", unsafe_allow_html=True)
 
 
 api_key = st.text_input("Enter your OpenAI API Key", type="password")
