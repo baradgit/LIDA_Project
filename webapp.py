@@ -93,11 +93,17 @@ if api_key:
                 if is_table_query(query) or ('Table' in divided_queries and 'None' not in table_query):
                     st.markdown("<h2 class='subheader'>Generating Table...</h2>", unsafe_allow_html=True)
                     sql_query = generate_sql_query(table_query,api_key)
-                    result_df = run_sql_query(sql_query)
-                    if isinstance(result_df, pd.DataFrame):
-                        st.dataframe(result_df)
-                    else:
-                        st.error(f"Re enter the query in detail")
+                    try:
+                        result_df = run_sql_query(sql_query)
+    
+                        if isinstance(result_df, pd.DataFrame):
+                            st.dataframe(result_df)
+                        else:
+        # In case result is not a DataFrame, we raise an exception to capture it
+                            raise ValueError("The query did not return a valid DataFrame.")
+                    except Exception as e:
+    # This will display the exact error from the run_sql_query function or any other error that occurs
+                        st.error(f"An error occurred: {str(e)}")        
 
                 # Process the summary query properly by invoking the CSV agent
                 if 'Summary' in divided_queries and 'None' not in summary_query:
