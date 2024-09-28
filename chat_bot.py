@@ -89,7 +89,7 @@ def generate_sql_query(user_input, api_key):
         model="gpt-4o",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=1000,
-        temperature=0.5
+        temperature=0.1
     )
 
     sql_query = response.choices[0].message.content.strip()
