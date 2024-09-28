@@ -88,7 +88,7 @@ def generate_sql_query(user_input, api_key):
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=1000,
-        temperature=0.3
+        temperature=0.5
     )
 
     sql_query = response.choices[0].message.content.strip()
