@@ -100,7 +100,8 @@ if api_key:
                             st.dataframe(result_df)
                         else:
         # In case result is not a DataFrame, we raise an exception to capture it
-                            raise ValueError("{result_df}")
+                            st.write(result_df)
+                            raise ValueError(result_df)
                     except Exception as e:
     # This will display the exact error from the run_sql_query function or any other error that occurs
                         st.error(f"An error occurred: {str(e)}")        
