@@ -50,17 +50,23 @@ if api_key:
         st.markdown(f"<div class='column-names'>This chatbot, built on the AI4I 2020 Predictive Maintenance Dataset, helps predict machine failures based on operational data like temperature, speed, torque, and tool wear. The chatbot allows users to query for visualizations, tables, and summaries using natural language input. It leverages LangChain to interpret queries and uses SQLite for data storage. The chatbot includes error correction for column names and generates visualizations using the LIDA library for charts. The user experience is streamlined through Streamlit, with continuous conversation capabilities, making the system efficient for predictive maintenance tasks.</div>", unsafe_allow_html=True)
 
         EXAMPLE_QUESTIONS = [
-            "1. What is the average Air_temperature__K_ for each Type of product?",
-            "2. Show a bar plot of Torque__Nm_ vs Rotational_speed__rpm_.",
-            "3. List the top 5 products with the highest Tool_wear__min_.",
-            "4. Create a line chart of Process_temperature__K_ over UDI.",
-            "5. Show a table of Machine_failure counts grouped by Type.",
-            "6. What is the correlation between Air_temperature__K_ and Process_temperature__K_?",
-            "7. Display a scatter plot of Torque__Nm_ against Rotational_speed__rpm_.",
-            "8. Show the distribution of Tool_wear__min_ using a histogram.",
-            "9. How many machines failed due to HDF?",
-            "10. Provide the summary statistics (mean, median, std) for Rotational_speed__rpm_.",
-        ]
+    "1. How many power failed products what is the average air temperature of only power failed products?",
+    "2. The count of products got machine failure and for that products what is the range of the air temperature?",
+    "3. Which failure type seems to occur more times under high air temperature conditions?",
+    "4. Provide a summary of failures by failure type (TWF, HDF, PWF, OSF, RNF) and the associated average operating conditions.",
+    "5. How many machines experienced power failure?",
+    "6. What is the average air temperature for products with power failure?",
+    "7. Table: product ID, air temperature, and rotational speed for products with machine failure?",
+    "8. How many products have both tool wear failure and power failure?",
+    "9. What is the range (MIN and MAX) of air temperature for machines with machine failure (Machine_failure)?",
+    "10. What is the total number of machines that experienced each type of failure (TWF, HDF, PWF, OSF, RNF)?",
+    "11. Plot a histogram of the air temperature (Air_temperature__K_) for machines with machine failure (Machine_failure).",
+    "12. Create a bar chart comparing the average tool wear time (Tool_wear__min_) for failed machines (Machine_failure) vs. non-failed machines (Machine_failure = 0).",
+    "13. Show a bar plot of the number of machines with rotational speed above 2000 rpm for each failure type.",
+    "14. Create a histogram showing the distribution of torque (Torque__Nm_) for machines with overstrain failure (OSF).",
+    "15. Create a scatter plot of air temperature (Air_temperature__K_) versus process temperature (Process_temperature__K_) for machines that experienced machine failure (Machine_failure = 1).",
+    "16. Show a box plot of rotational speed (Rotational_speed__rpm_) for each failure type (TWF, HDF, PWF, OSF, RNF)."
+]
 
         st.markdown("<h2 class='subheader'>Example Questions</h2>", unsafe_allow_html=True)
         for question in EXAMPLE_QUESTIONS:
