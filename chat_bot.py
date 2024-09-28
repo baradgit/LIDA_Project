@@ -81,13 +81,14 @@ def generate_sql_query(user_input, api_key):
         f"Use the table name 'data_table' in the query. "
         f"TWF = Tool Wear Failure, HDF = Heat Dissipation Failure, PWF = Power Failure, OSF = Overstrain Failure, RNF = Random Failures. "
         f"Talking about failure or failed always mention='1' and if not failed means always mention='0'."
+        f"Note: Very important thing if not exact atleast give related working query to execute"
     )
 
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=150,
-        temperature=0
+        max_tokens=1000,
+        temperature=0.3
     )
 
     sql_query = response.choices[0].message.content.strip()
@@ -140,7 +141,7 @@ def split_query_into_parts(user_query, api_key):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=300,
+        max_tokens=1000,
         temperature=0.5
     )
     
