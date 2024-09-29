@@ -86,6 +86,7 @@ if api_key:
                 visualization_query = divided_queries.split('Visualization:')[1].split('Table:')[0].strip()
                 table_query = divided_queries.split('Table:')[1].split('Summary:')[0].strip()
                 summary_query = divided_queries.split('Summary:')[1].strip()
+                visualization_query = "visualization:"+visualization_query
 
                 if is_visualization_query(query) or ('Visualization' in divided_queries and 'None' not in visualization_query):
                     st.markdown("<h2 class='subheader'>Generating Visualization...</h2>", unsafe_allow_html=True)
