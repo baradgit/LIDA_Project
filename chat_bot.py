@@ -119,7 +119,6 @@ def split_query_into_parts(user_query, api_key):
         f"1) **Visualization Request**: Detect phrases indicating the user wants a chart, graph, or any visual representation of the data. Look for words like 'show a graph', 'plot', 'visualize', 'bar chart', 'scatter plot', etc. "
         f"Also handle implicit requests like 'compare Air_temperature__K_ and Process_temperature__K_', which suggests the user wants a plot. "
         f"If multiple variables are mentioned, infer the correct type of chart. Provide the result in the format: 'Visualization: <description of chart>'. "
-        f"For example: 'Visualization: Bar chart of Torque__Nm_ vs Rotational_speed__rpm_'. If no visualization is requested, return 'Visualization: None'. "
         f"2) **Table Request (SQL Query or Python Code)**: For structured data requests, create a valid SQL query or Python code to match the user's request. "
         f"Pay attention to words like 'list', 'show table', 'retrieve', 'filter', 'order by', etc. For simple requests, generate an SQL query. "
         f"For more complex queries involving calculations, multiple filters, or conditions, generate a Python code snippet using Pandas. "
