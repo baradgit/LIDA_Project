@@ -119,6 +119,7 @@ def split_query_into_parts(user_query, api_key):
         f"1) **Visualization Request**: Detect phrases indicating the user wants a 'chart', 'graph','plot' or any visual representation of the data. Look for words like 'show a graph', 'plot', 'visualize', 'bar chart', 'scatter plot', etc. "
         f"Also handle implicit requests like 'compare' 'univariate' 'bivariate' 'Multivariate' use mention any you add any columns use column names mentioned , which suggests the user wants a plot. "
         f"univariate means plots has only has one column ,bivariate means 2 columns ,Multivariate means more than 2 columns "
+        f"plot", "chart", "graph", "visualize", "visualization", "visual if this key words not there reply "NONE" "
         f"check if user is asking  multiple plot  create detail prompt of multiple plots different plots with type of plot plot means visualization"
         f"If multiple variables are mentioned, infer the correct type of chart. Provide the result in the format: 'Visualization: <description of chart>'. "
         f"2) **Table Request (SQL Query or Python Code)**: For structured data requests, create a valid SQL query or Python code to match the user's request. "
