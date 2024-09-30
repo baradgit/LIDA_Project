@@ -65,7 +65,7 @@ if api_key:
     "13. Show a bar plot of the number of machines with rotational speed above 2000 rpm for each failure type.",
     "14. Create a histogram showing the distribution of torque (Torque__Nm_) for machines with overstrain failure (OSF).",
     "15. Create a scatter plot of air temperature (Air_temperature__K_) versus process temperature (Process_temperature__K_) for machines that experienced machine failure (Machine_failure = 1).",
-    "16. Show a box plot of rotational speed (Rotational_speed__rpm_) for each failure type (TWF, HDF, PWF, OSF, RNF)."
+    
 ]
 
         st.markdown("<h2 class='subheader'>Example Questions</h2>", unsafe_allow_html=True)
