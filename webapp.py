@@ -75,7 +75,7 @@ if api_key:
         st.markdown("<h2 class='subheader'>Available Column Names</h2>", unsafe_allow_html=True)
         st.markdown(f"<div class='column-names'>UDI, Product_ID, Type, Air_temperature__K_, Process_temperature__K_, Rotational_speed__rpm_, Torque__Nm_, Tool_wear__min_, Machine_failure,TWF (Tool Wear Failure), HDF (Heat Dissipation Failure), PWF (Power Failure), OSF (Overstrain Failure), RNF (Random Failures).</div>", unsafe_allow_html=True)
 
-
+        st.markdown("**If You get authentication error api key is wrong!**")
         st.markdown("<h2 class='subheader'>Ask a Question</h2>", unsafe_allow_html=True)
         query = st.text_area("Ask for a visualization, table, and summary in a single query:")
 
