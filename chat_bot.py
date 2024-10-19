@@ -1,4 +1,13 @@
-
+# Importing the necessary libraries
+# pandas - for handling data in DataFrame structure
+# sqlite3 - for interacting with SQLite databases
+# difflib - for comparing and finding closest matches to strings
+# openai - for OpenAI's API interactions
+# langchain and langchain_experimental - for agent-based LLMs with CSV handling
+# lida - used for text generation and visualizations
+# dotenv - for managing environment variables
+# PIL - Python Imaging Library to handle image manipulation
+# io and base64 - for handling image conversions
 import pandas as pd
 import sqlite3
 import difflib
@@ -12,27 +21,35 @@ from io import BytesIO
 import base64
 import os
 
-# Load environment variables for OpenAI key
-# load_dotenv()
+# Load environment variables, particularly the OpenAI API key. This ensures
+# the sensitive key is never hardcoded but is accessed securely from the environment.
+# load_dotenv()  # Uncomment if .env file is used
 # openai_api_key = os.getenv("OPENAI_API_KEY")
-# client = OpenAI(api_key=openai_api_key)
 
-
+# This function converts a base64-encoded string back into an image.
+# It decodes the base64 data, then opens it as an image using PIL.
 def base64_to_image(base64_string):
     byte_data = base64.b64decode(base64_string)
     return Image.open(BytesIO(byte_data))
 
-
+# This function initializes LIDA, a tool that manages text generation.
+# It sets up the manager using the OpenAI key.
 def initialize_lida(api_key):
     return Manager(text_gen=llm("openai", api_key=api_key))
 
-
+# Function to generate visualizations based on a user's query.
+# It first summarizes the given file and then generates visual charts using the Seaborn library.
 def generate_visualization(file_path, user_query, api_key):
+    # Configuring text generation settings for LIDA
     textgen_config = TextGenerationConfig(n=1, temperature=0.2, model="gpt-3.5-turbo", use_cache=True)
+    # Initialize LIDA Manager
     lida = Manager(text_gen=llm("openai", api_key=api_key))
+    # Generate a summary of the file based on the default method
     summary = lida.summarize(file_path, summary_method="default", textgen_config=textgen_config)
+    # Create visualizations from the summary and based on user goal/query
     charts = lida.visualize(summary=summary, goal=user_query, textgen_config=textgen_config, library="seaborn")
 
+     # If a chart is generated, decode the image from its base64 format
     if charts:
         img_base64_string = charts[0].raster
         img = base64_to_image(img_base64_string)
@@ -40,21 +57,25 @@ def generate_visualization(file_path, user_query, api_key):
     else:
         return None
 
-
+# Function to detect if the user's query is asking for any form of visualization.
+# Checks for keywords like 'plot', 'chart', or 'visualize' in the query.
 def is_visualization_query(query):
     keywords = ["plot", "chart", "graph", "visualize", "visualization", "visual"]
     return any(keyword in query.lower() for keyword in keywords)
 
-
+# Function to detect if the user is asking for table-related information.
+# Checks for keywords like 'table', 'list', or 'structured'.
 def is_table_query(query):
     keywords = ["table", "structured", "draw table", "create table", "show table", "list"]
     return any(keyword in query.lower() for keyword in keywords)
 
+# Column names that we expect in our dataset.
 COLUMN_NAMES = ['UDI', 'Product_ID', 'Type', 'Air_temperature__K_', 'Process_temperature__K_',
                 'Rotational_speed__rpm_', 'Torque__Nm_', 'Tool_wear__min_', 'Machine_failure',
                 'TWF', 'HDF', 'PWF', 'OSF', 'RNF']
 
-
+# Function to correct any misspelled column names in user input by comparing them to the actual column names.
+# Uses difflib to find the closest match.
 def correct_column_name(user_input_column):
     matches = difflib.get_close_matches(user_input_column, COLUMN_NAMES, n=1, cutoff=0.6)
     if matches:
@@ -62,7 +83,8 @@ def correct_column_name(user_input_column):
     else:
         return user_input_column
 
-
+# This function stores a CSV file into an SQLite database.
+# The CSV is read into a pandas DataFrame and then stored into a local SQLite database.
 def store_csv_in_db(csv_file):
     df = pd.read_csv(csv_file)
     conn = sqlite3.connect("local_database.db")
@@ -70,7 +92,8 @@ def store_csv_in_db(csv_file):
     conn.close()
     return df
 
-
+# Function to generate an SQL query based on user input.
+# It corrects column names where necessary and uses OpenAI to generate the SQL query.
 def generate_sql_query(user_input, api_key):
     words = user_input.split()
     corrected_words = [correct_column_name(word) for word in words]
@@ -83,18 +106,19 @@ def generate_sql_query(user_input, api_key):
         f"Talking about failure or failed always mention='1' and if not failed means always mention='0'."
         f"Note: Ensure that the SQL query string does not include ```sql. It should only contain valid SQL syntax not even extra unnecessary character"
     )
-
+     # API call to OpenAI's model for SQL generation
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=1000,
         temperature=0.1
     )
-
+    # Extract the SQL query from the response
     sql_query = response.choices[0].message.content.strip()
     return sql_query
 
-
+# Function to run the generated SQL query on the SQLite database.
+# Executes the query and returns the result as a pandas DataFrame.
 def run_sql_query(sql_query):
     conn = sqlite3.connect("local_database.db")
     try:
@@ -105,7 +129,8 @@ def run_sql_query(sql_query):
         conn.close()
         return str(e)
 
-
+# Function to split a complex user query into three distinct parts: Visualization, Table, and Summary.
+# It generates SQL queries or Python code as required and provides appropriate summaries.
 def split_query_into_parts(user_query, api_key):
     client = OpenAI(api_key=api_key)
     prompt = (
@@ -139,13 +164,13 @@ def split_query_into_parts(user_query, api_key):
         f"Talking about failure or failed always mention='1' and if not failed means always mention='0'. "
         
     )
-
+      # API call to OpenAI's model for splitting the query into parts
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=1000,
         temperature=0.2
     )
-    
+     # Extract the structured response
     divided_query = response.choices[0].message.content.strip()
     return divided_query
